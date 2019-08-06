@@ -68,17 +68,28 @@ class UserCard extends React.Component{
     render (){
 
         return (
+            <>
             <div className='user-card'>
-            <img alt='user-avatart' src={this.state.usercard.avatar_url}/> 
-            <h4>{this.state.usercard.login}</h4>
+                <h2> GitHub User Info</h2>
+                <p> username: {this.state.usercard.login} </p>
+                <h3> {this.state.usercard.name}</h3>
+            <img width='200px' alt='user-avatar' src={this.state.usercard.avatar_url}/> 
+            </div>
+
+            <div className='followers'>
+            <h2> List of Followers</h2>
 
             {this.state.userfollowers.map(follower => {
                 return <div className='follower' key={follower.login}> 
-               {follower.login}
+                <img width='15px' alt='user-follower-avatar' src={follower.avatar_url}/> <span >{follower.login}</span>
+
                 </div>
         })}
+
+</div>
+</>
            
-            </div>
+           
         )
     }
 
