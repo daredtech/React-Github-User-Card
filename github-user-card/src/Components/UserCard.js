@@ -7,7 +7,8 @@ class UserCard extends React.Component{
         super();
         // set the initial state to empty 
         this.state = {
-            usercard: ['should be replaced']
+            usercard: [],
+            userfollowers: []
         }
     }
     
@@ -16,8 +17,6 @@ class UserCard extends React.Component{
         fetch('https://api.github.com/users/daredtech')
         // if successful
         .then(response => {
-            // temp
-            // console.log(response);
             return response.json();
         })
         .then(userData => {
@@ -35,18 +34,49 @@ class UserCard extends React.Component{
         })
     }
 
-    // when component mounted, get the user data
+    // get the user's followers from api
+    fetchUserFollowers = () =>{
+        fetch('https://api.github.com/users/daredtech/followers')
+        // if successful
+        .then(response => {
+            return response.json();
+        })
+        .then(userFollowers => {
+            // temp
+            console.log(userFollowers)
+            this.setState({ userfollowers: userFollowers});
+            // temp
+            console.log(this.state.userfollowers)
+        })
+
+        // if not successful
+        .catch(error => {
+            // temp
+            console.log('unable to complete the request')
+        })
+    }
+
+
+    // when component mounted, 
+    // get the user data and user's followers
     componentDidMount(){
         this.fetchUserData();
-        console.log('should be updated state: ', this.state.usercard);
+        this.fetchUserFollowers();
     }
     
 
     render (){
-        console.log('in render: ', this.state.usercard);
 
         return (
             <div className='user-card'>
+            <img alt='user-avatart' src={this.state.usercard.avatar_url}/> 
+            <h4>{this.state.usercard.login}</h4>
+
+            {this.state.userfollowers.map(follower => {
+                return <div className='follower' key={follower.login}> 
+               {follower.login}
+                </div>
+        })}
            
             </div>
         )
